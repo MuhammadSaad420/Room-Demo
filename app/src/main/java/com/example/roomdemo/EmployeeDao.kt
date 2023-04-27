@@ -22,5 +22,5 @@ interface EmployeeDao {
     fun fetchAllEmployees(): Flow<List<EmployeeEntity>>
 
     @Query("SELECT * FROM `employee-table` where id=:id")
-    fun fetchAllEmployees(id:Int): Flow<List<EmployeeEntity>>
+    fun fetchAllEmployees(id:Int): Flow<EmployeeEntity>
 }
