@@ -2,8 +2,12 @@ package com.example.roomdemo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import androidx.recyclerview.widget.RecyclerView.Orientation
 import com.example.roomdemo.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
@@ -17,6 +21,11 @@ class MainActivity : AppCompatActivity() {
         binding?.btnAdd?.setOnClickListener {
             employeeDao?.let {
                 add(it);
+            }
+        }
+        lifecycleScope.launch {
+            employeeDao?.fetchAllEmployees()?.collect {
+                setUpListOfDataInRecyclerView(ArrayList(it), employeeDao);
             }
         }
     }
@@ -35,5 +44,20 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(applicationContext,"Please Enter valid data",Toast.LENGTH_SHORT);
             }
+    }
+
+    fun setUpListOfDataInRecyclerView(list: ArrayList<EmployeeEntity>, employeeDao: EmployeeDao) {
+        if(list.isNotEmpty()) {
+            var itemAdapter: ItemAdapter = ItemAdapter(list);
+            var layoutManager: LayoutManager = LinearLayoutManager(this);
+            binding?.rvItemsList?.layoutManager = layoutManager;
+            binding?.rvItemsList?.adapter = itemAdapter
+            binding?.rvItemsList?.visibility = View.VISIBLE;
+            binding?.tvNoRecordsAvailable?.visibility = View.GONE
+        } else {
+            binding?.rvItemsList?.visibility = View.GONE;
+            binding?.tvNoRecordsAvailable?.visibility = View.VISIBLE
+        }
+
     }
 }

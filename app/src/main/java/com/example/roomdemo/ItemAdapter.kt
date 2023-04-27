@@ -6,7 +6,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.roomdemo.databinding.ItemsRowBinding
 
-class ItemAdapter(private val items:List<EmployeeEntity>, private val onItemDelete: (id: Int) -> Unit, private val onItemEdit: (id: Int) -> Unit): RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+class ItemAdapter(private val items:List<EmployeeEntity>,
+                  //private val onItemDelete: (id: Int) -> Unit,
+                  //private val onItemEdit: (id: Int) -> Unit
+): RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
     class ViewHolder(binding: ItemsRowBinding): RecyclerView.ViewHolder(binding.root) {
         val llm = binding.llMain;
@@ -35,10 +38,10 @@ class ItemAdapter(private val items:List<EmployeeEntity>, private val onItemDele
             holder.llm.setBackgroundColor(ContextCompat.getColor(context,R.color.teal_700))
         }
         holder.ivDelete.setOnClickListener {
-            onItemDelete.invoke(currentItem.id)
+            //onItemDelete.invoke(currentItem.id)
         }
         holder.ivEdit.setOnClickListener {
-            onItemEdit.invoke(currentItem.id)
+            //onItemEdit.invoke(currentItem.id)
         }
     }
 }
